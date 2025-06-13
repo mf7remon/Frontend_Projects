@@ -4,9 +4,15 @@ let currentExpression = "";
 // Show the current expression in red
 function updateDisplay() {
   const history = display.dataset.history || "";
-  // Show the history plus current input exactly as typed
+
+  // Add spaces between operators and operands for better readability
+  const formattedExpression = currentExpression
+    .replace(/([+\-*/()])/g, " $1 ")
+    .replace(/\s+/g, " ") // remove extra spaces
+    .trim();
+
   display.innerHTML =
-    history + `<span style="color:red;">${currentExpression}</span>`;
+    history + `<span style="color:red;">${formattedExpression}</span>`;
 }
 
 // Append input to expression
@@ -41,27 +47,25 @@ function calculate() {
   try {
     const result = eval(currentExpression);
 
-    const newLine =
-      `<div style="color:red; white-space: pre;">${currentExpression}</div>` + // preserve spaces
-      `<div style="color:white; font-weight:bold; margin-left:10px;">Ans: ${result}</div><br/>`;
+    // For display: add spaces between numbers and operators
+    const formattedExpression = currentExpression
+      .replace(/([+\-*/()])/g, " $1 ")
+      .replace(/\s+/g, " ") // Replace multiple spaces with one
+      .trim();
 
+    const newLine = `<span style="color:red;">${formattedExpression}</span><span style="color:white;"> = ${result}</span><br/>`;
     display.dataset.history = (display.dataset.history || "") + newLine;
-  } catch (e) {
-    const newLine =
-      `<div style="color:red; white-space: pre;">${currentExpression}</div>` +
-      `<div style="color:white; font-weight:bold; margin-left:10px;">Ans: Error</div><br/>`;
+  } catch (err) {
+    const formattedExpression = currentExpression
+      .replace(/([+\-*/()])/g, " $1 ")
+      .replace(/\s+/g, " ")
+      .trim();
 
+    const newLine = `<span style="color:red;">${formattedExpression}</span><span style="color:white;"> = Error</span><br/>`;
     display.dataset.history = (display.dataset.history || "") + newLine;
   }
 
   currentExpression = "";
   updateDisplay();
   display.scrollTop = display.scrollHeight;
-}
-
-function updateDisplay() {
-  const history = display.dataset.history || "";
-  display.innerHTML =
-    history +
-    `<div style="color:red; white-space: pre;">${currentExpression}</div>`;
 }
