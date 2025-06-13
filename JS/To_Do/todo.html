@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>To-Do List with Time</title>
+    <link rel="stylesheet" href="todo.css" />
+  </head>
+  <body>
+    <div class="theme-toggle">
+      <label> <input type="checkbox" id="themeSwitch" /> Dark Mode </label>
+    </div>
+
+    <div class="todo-container">
+      <h1>🕒 To-Do List</h1>
+
+      <div class="input-group">
+        <input type="text" id="taskInput" placeholder="Enter task..." />
+        <input type="date" id="dateInput" />
+        <input type="time" id="timeInput" />
+        <select id="priorityInput">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button id="addBtn">Add</button>
+      </div>
+
+      <div class="filters">
+        <button data-filter="all" class="filter active">All</button>
+        <button data-filter="active" class="filter">Active</button>
+        <button data-filter="completed" class="filter">Completed</button>
+      </div>
+
+      <div class="counters">
+        <span id="taskCount">0 tasks total</span>
+      </div>
+
+      <ul id="taskList"></ul>
+    </div>
+
+    <script src="todo.js"></script>
+  </body>
+</html>
