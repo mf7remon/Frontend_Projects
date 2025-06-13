@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Courier New", monospace;
+  background-color: #1a1a1a;
+  color: #00ffcc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.clock-box {
+  text-align: center;
+  padding: 30px 50px;
+  border-radius: 20px;
+  background-color: #000;
+  box-shadow: 0 0 30px #00ffcc;
+}
+
+#clock {
+  font-size: 60px;
+  margin: 0;
+}
+
+#date {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #ccc;
+}
+
+#temp {
+  margin-top: 8px;
+  font-size: 16px;
+  color: #ffcc00;
+}
