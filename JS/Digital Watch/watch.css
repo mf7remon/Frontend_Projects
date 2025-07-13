@@ -36,30 +36,22 @@ body {
 }
 
 #humidity {
-  margin-top: 8px;
+  margin-top: 6px;
   font-size: 16px;
-  color: #66ccff;
+  color: #00ccff;
 }
 
-#alarm-time {
-  margin-top: 5px;
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: none;
-}
-
-#set-alarm-btn {
+#stop-alarm-btn {
   margin-left: 10px;
   padding: 6px 12px;
   font-size: 16px;
   border-radius: 5px;
   border: none;
-  background-color: #00ffcc;
-  color: #000;
+  background-color: #ff4444;
+  color: #fff;
   cursor: pointer;
 }
 
-#set-alarm-btn:hover {
-  background-color: #00ccaa;
+#stop-alarm-btn:hover {
+  background-color: #cc3333;
 }

@@ -45,7 +45,7 @@ function updateClock() {
   document.getElementById("date").textContent = dateString;
 }
 
-function getTemperatureAndHumidity(lat, lon) {
+function getTemperature(lat, lon) {
   const apiKey = "79fd69f8faf1faa9af3208e454e37993";
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
@@ -53,34 +53,34 @@ function getTemperatureAndHumidity(lat, lon) {
     .then((response) => response.json())
     .then((data) => {
       const temp = Math.round(data.main.temp);
-      const humidity = data.main.humidity;
       const city = data.name;
+      const humidity = data.main.humidity;
       document.getElementById("temp").textContent = `🌡️ ${temp}°C in ${city}`;
       document.getElementById("humidity").textContent = `💧 Humidity: ${humidity}%`;
     })
     .catch((err) => {
       document.getElementById("temp").textContent = "Failed to fetch temperature";
-      document.getElementById("humidity").textContent = "Failed to fetch humidity";
+      document.getElementById("humidity").textContent = "";
       console.error(err);
     });
 }
 
-function fetchLocationAndWeather() {
+function fetchLocationAndTemperature() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-        getTemperatureAndHumidity(lat, lon);
+        getTemperature(lat, lon);
       },
       (error) => {
         document.getElementById("temp").textContent = "Location access denied";
-        document.getElementById("humidity").textContent = "Location access denied";
+        document.getElementById("humidity").textContent = "";
       }
     );
   } else {
     document.getElementById("temp").textContent = "Geolocation not supported";
-    document.getElementById("humidity").textContent = "Geolocation not supported";
+    document.getElementById("humidity").textContent = "";
   }
 }
 
@@ -90,15 +90,18 @@ updateClock();
 setInterval(updateBorderColor, 1000);
 updateBorderColor();
 
-fetchLocationAndWeather();
+fetchLocationAndTemperature();
+
 
 // Alarm feature below
 
 let alarmTime = null;
 let alarmTimeout = null;
+let alarmStopTimeout = null;
 
 const alarmAudio = document.getElementById("alarm-audio");
 const alarmStatus = document.getElementById("alarm-status");
+const stopAlarmBtn = document.getElementById("stop-alarm-btn");
 
 document.getElementById("set-alarm-btn").addEventListener("click", () => {
   const input = document.getElementById("alarm-time").value;
@@ -111,7 +114,14 @@ document.getElementById("set-alarm-btn").addEventListener("click", () => {
   if (alarmTimeout) {
     clearTimeout(alarmTimeout);
   }
+  if (alarmStopTimeout) {
+    clearTimeout(alarmStopTimeout);
+  }
   checkAlarm();
+});
+
+stopAlarmBtn.addEventListener("click", () => {
+  stopAlarmSound();
 });
 
 function checkAlarm() {
@@ -120,7 +130,6 @@ function checkAlarm() {
   const now = new Date();
   const [alarmHours, alarmMinutes] = alarmTime.split(":").map(Number);
 
-  // Create a Date object for today at alarm time
   const alarmDate = new Date(
     now.getFullYear(),
     now.getMonth(),
@@ -131,17 +140,29 @@ function checkAlarm() {
     0
   );
 
-  const timeToAlarm = alarmDate.getTime() - now.getTime();
-
-  if (timeToAlarm < 0) {
-    // Alarm time already passed today, set for next day
+  if (alarmDate.getTime() - now.getTime() < 0) {
     alarmDate.setDate(alarmDate.getDate() + 1);
   }
 
-  const adjustedTimeToAlarm = alarmDate.getTime() - now.getTime();
+  const timeToAlarm = alarmDate.getTime() - now.getTime();
 
   alarmTimeout = setTimeout(() => {
+    alarmAudio.loop = true;
     alarmAudio.play();
     alarmStatus.textContent = "Alarm ringing! ⏰";
-  }, adjustedTimeToAlarm);
+
+    alarmStopTimeout = setTimeout(() => {
+      stopAlarmSound();
+    }, 20000); // Stop after 20 seconds
+  }, timeToAlarm);
+}
+
+function stopAlarmSound() {
+  alarmAudio.pause();
+  alarmAudio.currentTime = 0;
+  alarmAudio.loop = false;
+  alarmStatus.textContent = "Alarm stopped.";
+  if (alarmStopTimeout) {
+    clearTimeout(alarmStopTimeout);
+  }
 }
