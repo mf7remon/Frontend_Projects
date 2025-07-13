@@ -34,3 +34,32 @@ body {
   font-size: 16px;
   color: #ffcc00;
 }
+
+#humidity {
+  margin-top: 8px;
+  font-size: 16px;
+  color: #66ccff;
+}
+
+#alarm-time {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+
+#set-alarm-btn {
+  margin-left: 10px;
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  background-color: #00ffcc;
+  color: #000;
+  cursor: pointer;
+}
+
+#set-alarm-btn:hover {
+  background-color: #00ccaa;
+}

@@ -10,8 +10,19 @@
       <h1 id="clock">--:--:-- --</h1>
       <p id="date">Loading date...</p>
       <p id="temp">Fetching temperature...</p>
+      <p id="humidity">Fetching humidity...</p>
+
+      <label for="alarm-time" style="display:block; margin-top:15px; color:#00ffcc;">
+        Set Alarm:
+      </label>
+      <input type="time" id="alarm-time" />
+      <button id="set-alarm-btn">Set Alarm</button>
+      <p id="alarm-status" style="margin-top:8px; color:#ff6666;"></p>
+
+      <audio id="alarm-audio" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
     </div>
 
     <script src="watch.js"></script>
   </body>
 </html>
+
